@@ -7,21 +7,21 @@
         <title>Pokemon Display</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <div class="main">
+            <h1>Pokemon API</h1>
+            <h3>Click on the button to display six similar Pokemon</h3>
         
-        <h1>Pokemon Display</h1>
-        <h3>Click on the button to display a random Pokemon</h3>
-
-        <form class="pokemonForm" onsubmit="pickRandom(event)">
+            <form class="pokemonForm" onsubmit="pickRandom(event)">
             
-            <button id="submitButton" type="" submit>Random Pick</button>
-        </form>
-      
-        <div id="pokemonDisplay">
-        </div>  
-
+                <button id="submitButton" type="" submit>Random Pick</button>
+            </form>
+        
+            <div id="pokemonDisplay">
+            </div>  
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" async defer></script>
         <script src="app.js" async defer></script>
     </body>
