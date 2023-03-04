@@ -1,4 +1,3 @@
-console.log("app.js")
 
 const pickRandom = async (evt) => {
     evt.preventDefault();
@@ -7,13 +6,10 @@ const pickRandom = async (evt) => {
     randomNum = Math.floor(Math.random() * 1007 + 1)
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomNum}`);
     const pokemonData = response.data;
-    console.log(pokemonData);
-    console.log(pokemonData.types[0]["type"]["name"])
-    pokemonType = pokemonData.types[0]["type"]["name"]
+    randomType = Math.floor(Math.random() * pokemonData.types.length)
+    pokemonType = pokemonData.types[randomType]["type"]["name"]
     orgin_name = pokemonData.name
-    console.log(orgin_name)
     fiveRandomPlusOrgininalArray = await findFiveRandomByType(pokemonType, orgin_name)
-    console.log(fiveRandomPlusOrgininalArray)
     for(let i = 0; i < fiveRandomPlusOrgininalArray.length; i++){
         displayPokemon(fiveRandomPlusOrgininalArray[i])
     }
@@ -22,22 +18,17 @@ const pickRandom = async (evt) => {
 const findFiveRandomByType = async (pokemonType, orgin_name) => {
     const response = await axios.get(`https://pokeapi.co/api/v2/type/${pokemonType}/`);
     const typeData = response.data;
-    // console.log(typeData.pokemon);
-    // console.log(typeData.pokemon.length)
     let pokemonArray = [orgin_name]
     for(let i = 0; i < 5; i++) {
         randomNum = Math.floor(Math.random() * (typeData.pokemon.length))
-        // console.log(typeData.pokemon[randomNum]["pokemon"]["name"])
         pokemonArray.push(typeData.pokemon[randomNum]["pokemon"]["name"])
     }
-    console.log(pokemonArray)
-    return pokemonArray
+    return [...new Set(pokemonArray)]
 }
 
 const displayPokemon = async (pokemonName) => {
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
     const pokemonData = response.data;
-    console.log(pokemonData);
     imageDiv = document.createElement('div')
     imageDiv.id = pokemonName
     imageDiv.classList.add("pokemonCard")
@@ -47,13 +38,24 @@ const displayPokemon = async (pokemonName) => {
 
     let imageURL = pokemonData.sprites.front_default
     let imageElement = document.createElement('img')
-    imageElement.src = imageURL
-
-    underImage = document.createElement('p')
-    underImage.innerHTML = `Type: ${pokemonData.types[0]["type"]["name"]}`
-
+    if (imageURL === null) {
+        imageElement.src = "notfound.png"
+    } else {
+        imageElement.src = imageURL
+    }
+    
     insertIntoDivByID = document.getElementById(pokemonName)
     insertIntoDivByID.appendChild(imageElement)
-    insertIntoDivByID.appendChild(underImage)
+    for(let i = 0; i < pokemonData.types.length; i++) {
+        underImage = document.createElement('p')
+        if (i === 0){
+            underImage.innerHTML = `Type: ${pokemonData.types[i]["type"]["name"]}`
+        } else {
+            underImage.innerHTML = `- ${pokemonData.types[i]["type"]["name"]}`
+        }
+        
+        insertIntoDivByID.appendChild(underImage)
+    }
+    
 }
 
