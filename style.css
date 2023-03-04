@@ -1,0 +1,28 @@
+
+.main {
+    width: 90%;
+    margin: 5px auto;
+    
+}
+
+h1{
+    color: rgb(234, 255, 0);
+    text-align: center;
+    text-shadow: 2px 0 3px #666738;
+    margin: 5px auto;
+    font-size: 3rem;
+}
+
+.pokemonForm {
+    margin-bottom: 10px;
+}
+
+#pokemonDisplay {
+    display: flex;
+}
+
+.pokemonCard {
+    margin-top: 10px;
+    text-align: center;
+    min-width: 120px;
+}
